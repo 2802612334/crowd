@@ -127,6 +127,21 @@ public class ProjectServiceImpl implements ProjectService {
             httpDetailPicturePathList.add(pictrueHttpAddress);
         }
         detailProjectVO.setHttpDetailPicturePathList(httpDetailPicturePathList);
+        // 5.设置项目状态信息显示文字
+        switch (detailProjectVO.getStatus()){
+            case 0:
+                detailProjectVO.setStatusText("即将开始");
+                break;
+            case 1:
+                detailProjectVO.setStatusText("众筹中");
+                break;
+            case 2:
+                detailProjectVO.setStatusText("众筹成功");
+                break;
+            case 3:
+                detailProjectVO.setStatusText("众筹失败");
+                break;
+        }
         return detailProjectVO;
     }
 }
