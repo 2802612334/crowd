@@ -164,7 +164,7 @@
                     <div class="col-md-4 column">
                         <div class="panel panel-default" style="border-radius: 0px;" th:if="not (${projectDetail} eq null)">
                             <div class="panel-heading" style="background-color: #fff;border-color: #fff;">
-                                <span class="label label-success"><i class="glyphicon glyphicon-tag"></i> 众筹中</span>
+                                <span class="label label-success"><i class="glyphicon glyphicon-tag"></i> [[${projectDetail.statusText}]]</span>
                             </div>
                             <div class="panel-body">
                                 <h3 >
@@ -192,7 +192,9 @@
                                         <div class="col-md-9 column">
                                             <div class="">
                                                 <h4>
-                                                    <b>[[${projectDetail.sponsorPO.username}]]</b> <span style="float:right;font-size:12px;" class="label label-success">已认证</span>
+                                                    <b>[[${projectDetail.sponsorPO.username}]]</b>
+                                                    <span style="float:right;font-size:12px;" class="label label-success" th:if="${projectDetail.sponsorPO.authstatus} eq 1">已认证</span>
+                                                    <span style="float:right;font-size:12px;" class="label label-danger" th:if="${projectDetail.sponsorPO.authstatus} eq 1">未认证</span>
                                                 </h4>
                                                 <p style="font-size:12px">
                                                     [[${projectDetail.sponsorPO.descriptionSimple}]]
