@@ -39,7 +39,7 @@ public class MySQLRemoteHandler {
             return ResultEntity.successWithData(protalTypeProject);
         }catch (Exception e){
             if(e instanceof ParseException){
-                log.info("时间格式转换错误");
+                log.info("getProtalTypeProject " + "时间格式转换错误");
             }
             return ResultEntity.failed(e.getMessage());
         }
@@ -86,7 +86,7 @@ public class MySQLRemoteHandler {
             detailProjectVO = projectService.getDetailProjectReturn(projectId);
         } catch (Exception e) {
             if(e instanceof ParseException){
-                log.info("时间格式转换错误");
+                log.info("getDetailProjectReturnRemote " + "时间格式转换错误，" + "projectid--->" + projectId);
             }
             return ResultEntity.failed(e.getMessage());
         }
