@@ -26,6 +26,9 @@ public class DetailProjectVO {
     // 项目状态
     private Integer status;
 
+    // 项目状态对应显示信息
+    private String statusText;
+
     // 已筹资金
     private Long supportmoney;
 
