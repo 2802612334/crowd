@@ -1,0 +1,29 @@
+server:
+  port: 5000
+spring:
+  application:
+    name: atguigu-crowd-project
+  devtools:
+    restart:
+      enabled: true
+  redis:
+    host: 192.168.24.128
+    port: 6379
+  session:
+    store-type: redis
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    instance-id: project5000
+    prefer-ip-address: true
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+crowd:
+  HeaderPictureFileDir: D:\JavaIDE\code\Java\atcrowdfunding-member-parent\atcrowdfunding-member-authentication-consumer\target\classes\static\crowd-project-picture\headerpicture\
+  DetailPictureFileDir: D:\JavaIDE\code\Java\atcrowdfunding-member-parent\atcrowdfunding-member-authentication-consumer\target\classes\static\crowd-project-picture\detailpicture\
+  ReturnPictureFileDir: D:\JavaIDE\code\Java\atcrowdfunding-member-parent\atcrowdfunding-member-authentication-consumer\target\classes\static\crowd-project-picture\returnpicture\

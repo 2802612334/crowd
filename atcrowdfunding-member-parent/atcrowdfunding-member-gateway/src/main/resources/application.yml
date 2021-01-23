@@ -1,0 +1,41 @@
+server:
+  port: 80
+spring:
+  application:
+    name: atguigu-crowd-gateway
+  redis:
+    host: 192.168.24.128
+    port: 6379
+  session:
+    store-type: redis
+  cloud:
+    gateway:
+#      globalcors:
+#        default-filters:  #全局用于配置所有路由共享过滤器
+#          - PreserveHostHeader #发送原主机头
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: atguigu-crowd-auth
+          uri: lb://atguigu-crowd-auth
+          predicates:
+            - Path=/member/**,/bootstrap/**,/css/**,/fonts/**,/img/**,/jquery/**,/layer/**,/script/**,/ztree/**,/crowd-project-picture/**,/
+          filters:
+            - PreserveHostHeader
+        - id: atguigu-crowd-project
+          uri: lb://atguigu-crowd-project
+          predicates:
+            - Path=/project/**
+          filters:
+            - PreserveHostHeader
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    instance-id: gateway80
+    prefer-ip-address: true

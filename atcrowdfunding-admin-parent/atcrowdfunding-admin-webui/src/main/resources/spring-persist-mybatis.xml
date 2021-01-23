@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    读取数据库配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--    配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+    </bean>
+<!--    配置SqlSessionFactoryBean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--        配置数据源-->
+        <property name="dataSource" ref="dataSource"/>
+<!--        配置mybatis主配值文件的位置-->
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+<!--        配置mapper文件的位置-->
+        <property name="mapperLocations" value="classpath:mybatis/mapper/*Mapper.xml"/>
+<!--        配置别名-->
+        <property name="typeAliasesPackage" value="com.atguigu.crowd.mapper"/>
+<!--        配置插件-->
+<!--        <property name="plugins">-->
+<!--&lt;!&ndash;            分页插件&ndash;&gt;-->
+<!--            <array>-->
+<!--&lt;!&ndash;                配置pageHelper&ndash;&gt;-->
+<!--                <bean class="com.github.pagehelper.PageHelper">-->
+<!--                    <property name="properties">-->
+<!--                        <props>-->
+<!--&lt;!&ndash;                            数据库类型&ndash;&gt;-->
+<!--                            <prop key="dialect">mysql</prop>-->
+<!--&lt;!&ndash;                            配置分页合理化&ndash;&gt;-->
+<!--                            <prop key="reasonable">true</prop>-->
+<!--                        </props>-->
+<!--                    </property>-->
+<!--                </bean>-->
+<!--            </array>-->
+<!--        </property>-->
+    </bean>
+<!--    配置MapperScannerConfigurer-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.atguigu.crowd.mapper"/>
+    </bean>
+<!--    扫描service-->
+    <context:component-scan base-package="com.atguigu.crowd.service"/>
+</beans>

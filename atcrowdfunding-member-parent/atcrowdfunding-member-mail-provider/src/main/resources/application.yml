@@ -1,0 +1,23 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: atguigu-crowd-mail
+  mail:
+    username: 2802612334@qq.com
+    password: soiunwsfyhssddef
+    host: smtp.qq.com
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: mail9000

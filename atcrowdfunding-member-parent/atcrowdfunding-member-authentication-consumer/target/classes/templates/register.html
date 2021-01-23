@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keys" content="">
+    <meta name="author" content="">
+    <base th:href="@{/}">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#regBtn").click(function () {
+                // 1.获取用户输入的邮箱地址
+                var mailaddress = $.trim($("[name=email]").val());
+                // 2.判断输入是否合法
+                if(mailaddress == ""){
+                    layer.msg("输入不合法，请重新输入！")
+                    return;
+                }
+                // 2.发送异步请求，向用户发送验证码
+                $.ajax({
+                    url: "member/send/code.json",
+                    data:{
+                        "mailaddress": mailaddress
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success:function (response) {
+                        // 发送失败
+                        if(response.result == "FAILED"){
+                            layer.msg(response.message);
+                            return;
+                        }
+                        // 发送成功
+                        layer.msg("发送成功");
+                    },
+                    error:function (response) {
+                        layer.msg("服务器异常，请稍后访问！")
+                    }
+                })
+            });
+        })
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <div><a class="navbar-brand" href="index.html" style="font-size:32px;"  th:href="@{/}">尚筹网-创意产品众筹平台</a></div>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <form class="form-signin" role="form" th:action="@{member/do/register.html}" method="post">
+        <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 用户注册</h2>
+        <p>[[${registerMessage}]]</p>
+        <div class="form-group has-success has-feedback">
+            <input type="text" name="loginacct" class="form-control" placeholder="请输入登录账号" autofocus>
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <input type="password" name="userpswd" class="form-control" placeholder="请输入登录密码" style="margin-top:10px;">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <input type="email" name="email" class="form-control" placeholder="请输入邮箱地址" style="margin-top:10px;">
+            <span class="glyphicon glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <input type="text" name="code" class="form-control" placeholder="请输入验证码" style="margin-top:10px;">
+            <span class="glyphicon glyphicon glyphicon-comment form-control-feedback"></span>
+        </div>
+        <button type="button" id="regBtn" class="btn btn-lg btn-success btn-block"> 获取验证码</button>
+        <input type="submit" class="btn btn-lg btn-success btn-block" value="注册"/>
+    </form>
+</div>
+</body>
+</html>

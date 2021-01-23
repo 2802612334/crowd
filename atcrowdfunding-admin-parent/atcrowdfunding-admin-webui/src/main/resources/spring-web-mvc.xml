@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<!--    注解扫描器，扫描Controller和一些权限组件。-->
+    <context:component-scan base-package="com.atguigu.crowd.mvc"/>
+<!--    注解驱动-->
+    <mvc:annotation-driven/>
+<!--    视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+<!--    基于XML配置异常处理-->
+    <bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+<!--                如果注解没有注解配置的异常处理，则默认使用基于XML配置的异常处理-->
+                <prop key="java.lang.Exception">system-error</prop>
+            </props>
+        </property>
+    </bean>
+<!--    建立handler与页面连接-->
+    <mvc:view-controller path="/security/to/login/page.html" view-name="admin-login"/>
+    <mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
+    <mvc:view-controller path="/admin/to/add/page.html" view-name="admin-add"/>
+    <mvc:view-controller path="/role/to/page.html" view-name="role-page"/>
+    <mvc:view-controller path="/menu/to/page.html" view-name="menu-page"/>
+
+    <!--    拦截器,使用了SpringSecurity做权限验证之后，不需要拦截器了。
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            登录页面
+            <mvc:exclude-mapping path="/admin/to/login/page.html"/>
+            登录请求
+            <mvc:exclude-mapping path="/admin/do/login.html"/>
+            用户注销
+            <mvc:exclude-mapping path="/admin/do/logout.html"/>
+            <bean class="com.atguigu.crowd.mvc.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+        -->
+</beans>
