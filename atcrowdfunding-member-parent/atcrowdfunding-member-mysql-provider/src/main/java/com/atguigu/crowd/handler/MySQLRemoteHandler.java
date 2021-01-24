@@ -2,11 +2,9 @@ package com.atguigu.crowd.handler;
 
 import com.atguigu.crowd.constant.CrowdConstant;
 import com.atguigu.crowd.entity.po.MemberPO;
-import com.atguigu.crowd.entity.vo.DetailProjectVO;
-import com.atguigu.crowd.entity.vo.PortalProjectVO;
-import com.atguigu.crowd.entity.vo.PortalTypeVO;
-import com.atguigu.crowd.entity.vo.ProjectVO;
+import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.service.MemberService;
+import com.atguigu.crowd.service.OrderService;
 import com.atguigu.crowd.service.ProjectService;
 import com.atguigu.crowd.util.CrowdUtil;
 import com.atguigu.crowd.util.ResultEntity;
@@ -30,6 +28,9 @@ public class MySQLRemoteHandler {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping("/get/portal/type/project/data/remote")
     public ResultEntity<List<PortalTypeVO>> getProtalTypeProject() {
@@ -91,5 +92,16 @@ public class MySQLRemoteHandler {
             return ResultEntity.failed(e.getMessage());
         }
         return ResultEntity.successWithData(detailProjectVO);
+    }
+
+    @RequestMapping("/get/order/project/vo/remote/{returnid}")
+    public ResultEntity<OrderProjectVO> getOrderProjectVORemote(@PathVariable("returnid") Integer returnId){
+        try{
+            OrderProjectVO orderProjectVO = orderService.getOrderProjectVO(returnId);
+            return ResultEntity.successWithData(orderProjectVO);
+        }catch (Exception e){
+            log.info("getOrderProjectVORemote执行出现错误：" + e.getMessage());
+            return ResultEntity.failed(e.getMessage());
+        }
     }
 }
