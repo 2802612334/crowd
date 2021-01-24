@@ -114,7 +114,7 @@ public class MySQLRemoteHandler {
     }
 
     @RequestMapping("/get/order/address/vo/remote/{memberid}")
-    ResultEntity<List<AddressVO>> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId){
+    public ResultEntity<List<AddressVO>> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId){
         try{
             List<AddressPO> addressPOList = addressService.getAddressByMemberId(memberId);
             List<AddressVO> addressVOList = new ArrayList<>();
