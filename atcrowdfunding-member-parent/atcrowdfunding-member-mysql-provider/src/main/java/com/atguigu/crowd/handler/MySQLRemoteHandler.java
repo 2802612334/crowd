@@ -1,21 +1,26 @@
 package com.atguigu.crowd.handler;
 
 import com.atguigu.crowd.constant.CrowdConstant;
+import com.atguigu.crowd.entity.po.AddressPO;
 import com.atguigu.crowd.entity.po.MemberPO;
 import com.atguigu.crowd.entity.vo.*;
+import com.atguigu.crowd.service.AddressService;
 import com.atguigu.crowd.service.MemberService;
 import com.atguigu.crowd.service.OrderService;
 import com.atguigu.crowd.service.ProjectService;
 import com.atguigu.crowd.util.CrowdUtil;
 import com.atguigu.crowd.util.ResultEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +36,9 @@ public class MySQLRemoteHandler {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping("/get/portal/type/project/data/remote")
     public ResultEntity<List<PortalTypeVO>> getProtalTypeProject() {
@@ -101,6 +109,23 @@ public class MySQLRemoteHandler {
             return ResultEntity.successWithData(orderProjectVO);
         }catch (Exception e){
             log.info("getOrderProjectVORemote执行出现错误：" + e.getMessage());
+            return ResultEntity.failed(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/get/order/address/vo/remote/{memberid}")
+    ResultEntity<List<AddressVO>> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId){
+        try{
+            List<AddressPO> addressPOList = addressService.getAddressByMemberId(memberId);
+            List<AddressVO> addressVOList = new ArrayList<>();
+            for (AddressPO addressPO : addressPOList) {
+                AddressVO addressVO = new AddressVO();
+                BeanUtils.copyProperties(addressPO,addressVO);
+                addressVOList.add(addressVO);
+            }
+            return ResultEntity.successWithData(addressVOList);
+        }catch (Exception e){
+            log.info("getAddressByMemberIdRemote执行出现错误：" + e.getMessage());
             return ResultEntity.failed(e.getMessage());
         }
     }
