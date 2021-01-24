@@ -1,0 +1,25 @@
+server:
+  port: 6000
+spring:
+  application:
+    name: atguigu-crowd-order
+  devtools:
+    restart:
+      enabled: true
+  redis:
+    host: 192.168.24.128
+    port: 6379
+  session:
+    store-type: redis
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:1000/eureka
+  instance:
+    instance-id: order6000
+    prefer-ip-address: true
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
