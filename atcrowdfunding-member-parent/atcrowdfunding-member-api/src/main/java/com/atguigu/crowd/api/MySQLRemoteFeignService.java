@@ -1,10 +1,7 @@
 package com.atguigu.crowd.api;
 
 import com.atguigu.crowd.entity.po.MemberPO;
-import com.atguigu.crowd.entity.vo.DetailProjectVO;
-import com.atguigu.crowd.entity.vo.OrderProjectVO;
-import com.atguigu.crowd.entity.vo.PortalTypeVO;
-import com.atguigu.crowd.entity.vo.ProjectVO;
+import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.util.ResultEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,4 +31,7 @@ public interface MySQLRemoteFeignService {
 
     @RequestMapping("/get/order/project/vo/remote/{returnid}")
     ResultEntity<OrderProjectVO> getOrderProjectVORemote(@PathVariable("returnid") Integer returnId);
+
+    @RequestMapping("/get/order/address/vo/remote/{memberid}")
+    ResultEntity<AddressVO> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId);
 }
