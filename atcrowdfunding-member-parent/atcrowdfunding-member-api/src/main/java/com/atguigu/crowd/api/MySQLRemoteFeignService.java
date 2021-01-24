@@ -2,6 +2,7 @@ package com.atguigu.crowd.api;
 
 import com.atguigu.crowd.entity.po.MemberPO;
 import com.atguigu.crowd.entity.vo.DetailProjectVO;
+import com.atguigu.crowd.entity.vo.OrderProjectVO;
 import com.atguigu.crowd.entity.vo.PortalTypeVO;
 import com.atguigu.crowd.entity.vo.ProjectVO;
 import com.atguigu.crowd.util.ResultEntity;
@@ -30,4 +31,7 @@ public interface MySQLRemoteFeignService {
 
     @RequestMapping("/save/project/vo/remote")
     ResultEntity<String> saveProjectVORemote(@RequestBody ProjectVO projectVO, @RequestParam("memberid") Integer memberId);
+
+    @RequestMapping("/get/order/project/vo/remote/{returnid}")
+    ResultEntity<OrderProjectVO> getOrderProjectVORemote(@PathVariable("returnid") Integer returnId);
 }
