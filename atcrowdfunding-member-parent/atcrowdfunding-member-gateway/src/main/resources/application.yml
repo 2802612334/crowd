@@ -30,11 +30,11 @@ spring:
           filters:
             - PreserveHostHeader
         - id: atguigu-crowd-order
-            uri: lb://atguigu-crowd-order
-            predicates:
-              - Path=/order/**
-            filters:
-              - PreserveHostHeader
+          uri: lb://atguigu-crowd-order
+          predicates:
+            - Path=/order/**
+          filters:
+            - PreserveHostHeader
 
 eureka:
   client:
