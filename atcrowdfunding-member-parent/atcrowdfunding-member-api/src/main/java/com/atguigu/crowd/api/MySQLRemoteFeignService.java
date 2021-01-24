@@ -33,5 +33,5 @@ public interface MySQLRemoteFeignService {
     ResultEntity<OrderProjectVO> getOrderProjectVORemote(@PathVariable("returnid") Integer returnId);
 
     @RequestMapping("/get/order/address/vo/remote/{memberid}")
-    ResultEntity<AddressVO> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId);
+    ResultEntity<List<AddressVO>> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId);
 }
