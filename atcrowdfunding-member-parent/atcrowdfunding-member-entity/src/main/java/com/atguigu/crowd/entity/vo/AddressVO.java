@@ -18,4 +18,6 @@ public class AddressVO implements Serializable {
     private String phoneNum;
 
     private String address;
+
+    private Integer memberId;
 }
