@@ -46,7 +46,7 @@ public class ProjectConsumerHandler {
         ModelAndView modelAndView = new ModelAndView();
         ResultEntity<DetailProjectVO> detailProjectReturn = mySQLRemoteFeignService.getDetailProjectReturnRemote(projectId);
         modelAndView.setViewName("project");
-        if(detailProjectReturn.getResult() == ResultEntity.getFAILED()){
+        if(detailProjectReturn.getResult().equals(ResultEntity.getFAILED())){
             return modelAndView;
         }
         modelAndView.addObject(CrowdConstant.ATTR_NAME_PROJECT_DETAIL,detailProjectReturn.getData());
@@ -65,7 +65,7 @@ public class ProjectConsumerHandler {
         projectVO.setCreatedate(simpleDateFormat.format(new Date()));
         // 3.进行数据持久化
         ResultEntity<String> resultEntity = mySQLRemoteFeignService.saveProjectVORemote(projectVO, memberLoginVO.getId());
-        if(resultEntity.getResult() == ResultEntity.getFAILED()){
+        if(resultEntity.getResult().equals(ResultEntity.getFAILED())){
             log.info("保存" + projectVO.toString() + "失败！" + "     错误信息：" + resultEntity.getMessage());
             request.setAttribute(CrowdConstant.ATTR_NAME_MESSAGE,CrowdConstant.MESSAGE_SAVE_PROJECT_ERROR);
             return "confirm";
