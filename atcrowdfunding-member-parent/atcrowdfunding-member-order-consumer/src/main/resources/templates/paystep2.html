@@ -159,15 +159,14 @@
                                 <div class="col-md-12 column" style="padding:0 120px;">
                                     <div class="radio" th:each="address : ${session.addressMember}">
                                         <label>
-                                            <input type="radio" name="optionsRadios" value="option1" checked>
+                                            <input type="radio" name="addressId" th:value="${address.addressId}">
                                             [[${address.receiveName}]] [[${address.phoneNum}]] [[${address.address}]]
                                         </label>
                                     </div>
 
                                     <div class="radio">
-                                        <label>
-                                            <input type="radio" name="optionsRadios" value="option2">
-                                            新地址
+                                        <label style="color: red">
+                                            添加新地址
                                         </label>
                                     </div>
                                     <div style="border:10px solid #f60;border-bottom-color: #eceeef;border-width: 10px;width:20px;margin-left:20px;margin-top:-20px;
@@ -182,25 +181,25 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">收货人（*）</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" style="width:200px;" placeholder="姓名：xxxx" >
+                                                            <input type="text" class="form-control" style="width:200px;" placeholder="姓名：xxxx" name="receiveName">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">手机（*）</label>
                                                         <div class="col-sm-10">
-                                                            <input class="form-control" type="text" style="width:200px;" placeholder="请填写11位手机号码"></input>
+                                                            <input class="form-control" type="text" style="width:200px;" placeholder="请填写11位手机号码" name="phoneNum"/>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">地址（*）</label>
                                                         <div class="col-sm-10">
-                                                            <input class="form-control" type="text" style="width:400px;" placeholder="请填写11位手机号码"></input>
+                                                            <input class="form-control" type="text" style="width:400px;" placeholder="请填写配送地址" name="address"/>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputEmail3" class="col-sm-2 control-label"></label>
                                                         <div class="col-sm-10">
-                                                            <button type="button" class="btn btn-primary">确认配送信息</button>
+                                                            <button type="button" class="btn btn-primary" id="addAddressBtn">确认配送信息</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -222,13 +221,13 @@
                                 <div class="col-md-12 column" style="padding:0 120px;">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+                                            <input type="radio" name="invoice" id="optionsRadios1" value="0">
                                             无需发票
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="optionsRadios1" id="optionsRadios2" value="option2">
+                                            <input type="radio" name="invoice" id="optionsRadios2" value="1">
                                             需要发票
                                         </label>
                                     </div>
@@ -244,7 +243,7 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label">发票抬头（*）</label>
                                                         <div class="col-sm-10">
-                                                            <input type="text" class="form-control" style="width:200px;" placeholder="个人" >
+                                                            <input type="text" class="form-control" name="invoiceTitle" style="width:200px;" placeholder="个人" >
                                                         </div>
                                                     </div>
                                                 </form>
@@ -292,7 +291,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">备注</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" rows="1" placeholder="填写关于回报或发起人希望您备注的信息"></textarea>
+                                            <textarea class="form-control" rows="1" placeholder="填写关于回报或发起人希望您备注的信息" name="orderRemark"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -317,12 +316,12 @@
                                                 请在下单后15分钟内付款，否则您的订单会被自动关闭。
                                             </li>
                                             <li style="margin-top:10px;">
-                                                <button disabled="disabled" type="button" class="btn btn-warning btn-lg" onclick="window.location.href='pay-step-3.html'"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
+                                                <button disabled="disabled" type="button" class="btn btn-warning btn-lg" onclick="window.location.href='pay-step-3.html'" id="submitBtn"><i class="glyphicon glyphicon-credit-card"></i> 立即付款</button>
                                             </li>
                                             <li style="margin-top:10px;">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" checked> 我已了解风险和规则
+                                                        <input type="checkbox" id="agreementCheck"> 我已了解风险和规则
                                                     </label>
                                                 </div>
                                             </li>
@@ -376,10 +375,62 @@
     </div>
 
 </div> <!-- /container -->
+<form id="addAddressForm" th:action="@{/order/confirm/save/address}" method="post"></form>
+<form id="payOrderForm" th:action="@{/pay/generate/order}" method="post"></form>
 <script src="jquery/jquery-2.1.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="script/docs.min.js"></script>
 <script src="script/back-to-top.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("[name=addressId]:first").prop("checked",true);
+        $("[name=invoice]:first").prop("checked",true);
+
+        $("#addAddressBtn").click(function () {
+            // 1.获取表单信息
+            var receiveName = $.trim($("[name=receiveName]").val());
+            var phoneNum = $.trim($("[name=phoneNum]").val());
+            var address = $.trim($("[name=address]").val());
+            if(receiveName == "" || phoneNum == "" || address == ""){
+                alert("请完成填写表单信息，再点击提交配送信息！")
+                return;
+            }
+            $("#addAddressForm")
+                .append("<input type='hidden' name='receiveName' value='"+receiveName+"'/>")
+                .append("<input type='hidden' name='phoneNum' value='"+phoneNum+"'/>")
+                .append("<input type='hidden' name='address' value='"+address+"'/>")
+                .submit();
+        });
+
+        $("#agreementCheck").click(function(){
+            var checked = $(this).prop("checked");
+            if(checked){
+                $("#submitBtn").prop("disabled","");
+            }else{
+                $("#submitBtn").prop("disabled","disabled");
+            }
+        });
+
+        $("#submitBtn").click(function () {
+            // 1.收集表单数据
+            var addressId = $("[name=addressId]:checked").val();
+            var invoice = $("[name=invoice]:checked").val();
+            var orderRemark = $.trim($("[name=orderRemark]").val());
+            // 2.判断是否具有发票抬头
+            if(invoice == 1){
+                var invoiceTitle = $("[name=invoiceTitle]").val();
+                $("#payOrderForm")
+                    .append("<input type='hidden' name='invoiceTitle' value='"+invoiceTitle+"'/>");
+            }
+            // 3.提交表单
+            $("#payOrderForm")
+                .append("<input type='hidden' name='addressId' value='"+addressId+"'/>")
+                .append("<input type='hidden' name='invoice' value='"+invoice+"'/>")
+                .append("<input type='hidden' name='orderRemark' value='"+orderRemark+"'/>")
+                .submit();
+        });
+    })
+</script>
 <script>
     $('#myTab a').click(function (e) {
         e.preventDefault()
