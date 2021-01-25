@@ -120,12 +120,24 @@ public class MySQLRemoteHandler {
             List<AddressVO> addressVOList = new ArrayList<>();
             for (AddressPO addressPO : addressPOList) {
                 AddressVO addressVO = new AddressVO();
+                addressVO.setAddressId(addressPO.getId());
                 BeanUtils.copyProperties(addressPO,addressVO);
                 addressVOList.add(addressVO);
             }
             return ResultEntity.successWithData(addressVOList);
         }catch (Exception e){
             log.info("getAddressByMemberIdRemote执行出现错误：" + e.getMessage());
+            return ResultEntity.failed(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/save/address")
+    public ResultEntity<String> saveAddressRemote(@RequestBody AddressVO addressVO){
+        try{
+            addressService.saveAddress(addressVO);
+            return ResultEntity.successWithOutData();
+        }catch (Exception e){
+            log.info("saveAddressRemote执行出现错误：" + e.getMessage());
             return ResultEntity.failed(e.getMessage());
         }
     }
