@@ -169,7 +169,7 @@
   <select id="selectOrderProjectVOByReturnId" resultType="com.atguigu.crowd.entity.vo.OrderProjectVO">
     SELECT
       t_project.project_name projectName,
-      t_member_launch_info.service_num launchName,
+      t_member.username launchName,
       t_return.content returnContent,
       t_return.signalpurchase signalpurchase,
       t_return.purchase purchase,
@@ -179,6 +179,7 @@
       t_project
       JOIN t_member_launch_info ON t_project.memberid = t_member_launch_info.memberid
       JOIN t_return ON t_project.id = t_return.projectid
+      JOIN t_member ON t_project.memberid = t_member.id
     WHERE
         t_return.id = #{returnId}
   </select>

@@ -18,6 +18,7 @@ public class CrowdConstant {
     public static final String CODE_IS_ERROR = "您输入的验证码有误";
     public static final String MESSAGE_SAVE_PROJECT_ERROR = "项目保存失败，请稍后再试！";
     public static final String MESSAGE_PORTAL_INIT_ERROR = "首页信息加载异常，请稍后再试！";
+    public static final String MESSAGE_PAY_FEILED = "支付失败";
 
     public static final String ATTR_NAME_PORTAL_DATA = "portalVO";
     public static final String ATTR_NAME_MESSAGE = "message";
@@ -31,4 +32,6 @@ public class CrowdConstant {
     public static final String SYSTEM_VERIFICATION_CODE = "VERIFICATION_CODE";
     public static final String MESSAGE_REGISTER_FAILED = "registerMessage";
     public static final String ATTR_NAME_PROJECT_DETAIL = "projectDetail";
+    public static final String ATTR_NAME_ORDER_PROJECT = "orderProject";
+    public static final String ATTR_NAME_ADDRESS_MEMBER = "addressMember";
 }

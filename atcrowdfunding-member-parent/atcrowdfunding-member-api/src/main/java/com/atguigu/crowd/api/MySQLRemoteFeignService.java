@@ -1,5 +1,6 @@
 package com.atguigu.crowd.api;
 
+import com.atguigu.crowd.entity.po.AddressPO;
 import com.atguigu.crowd.entity.po.MemberPO;
 import com.atguigu.crowd.entity.vo.*;
 import com.atguigu.crowd.util.ResultEntity;
@@ -34,4 +35,7 @@ public interface MySQLRemoteFeignService {
 
     @RequestMapping("/get/order/address/vo/remote/{memberid}")
     ResultEntity<List<AddressVO>> getAddressByMemberIdRemote(@PathVariable("memberid") Integer memberId);
+
+    @RequestMapping("/save/address")
+    ResultEntity<String> saveAddressRemote(@RequestBody AddressVO addressVO);
 }

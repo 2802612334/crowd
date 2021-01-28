@@ -105,7 +105,7 @@
     values (#{id,jdbcType=INTEGER}, #{receiveName,jdbcType=CHAR}, #{phoneNum,jdbcType=CHAR}, 
       #{address,jdbcType=CHAR}, #{memberId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.atguigu.crowd.entity.po.AddressPO">
+  <insert id="insertSelective" parameterType="com.atguigu.crowd.entity.po.AddressPO" useGeneratedKeys="true" keyProperty="id">
     insert into t_address
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
