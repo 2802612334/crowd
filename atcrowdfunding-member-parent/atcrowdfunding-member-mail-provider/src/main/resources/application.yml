@@ -5,7 +5,7 @@ spring:
     name: atguigu-crowd-mail
   mail:
     username: 2802612334@qq.com
-    password: soiunwsfyhssddef
+    password: password
     host: smtp.qq.com
     properties:
       mail:
